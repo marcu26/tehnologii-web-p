@@ -2,10 +2,10 @@
 
 ## Descriere
 
-Site-ul web este un portal de joburi.
-Un angajat poate sa creeze un profil, sa posteze, sa isi faca prieteni, sa dea mesaje, sa aplice pentru un job, sa editeze profilul, sa interactioneze cu postarile altor oameni sau companii prin like si comment.
-Un angajator poate sa faca acelasi lucru +sa posteze un loc de munca, si sa vada cine a aplicat pentru job (aplicarea o sa vina in mesaj).
-Un admin poate sa editeze conturile create in portal si sa vada anumite statistici (momentan sunt doar 2 dar o sa mai vina pe parcurs).
+- Site-ul web este un portal de joburi.
+- Un angajat poate sa creeze un profil, sa posteze, sa isi faca prieteni, sa dea mesaje, sa aplice pentru un job, sa editeze profilul, sa - interactioneze cu postarile altor oameni sau companii prin like si comment.
+- Un angajator poate sa faca acelasi lucru +sa posteze un loc de munca, si sa vada cine a aplicat pentru job (aplicarea o sa vina in mesaj).
+- Un admin poate sa editeze conturile create in portal si sa vada anumite statistici (momentan sunt doar 2 dar o sa mai vina pe parcurs).
 
 ## Mod de rulare
 
