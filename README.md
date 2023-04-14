@@ -24,7 +24,7 @@ In terminal, in interiorul proiectului, se vor da comenzile:
 ## Flow pe scurt
 
 - Proiectul se deschide cu pagina principala in care sunt postarile utilizatorilor
-- In stanga sus exista un buton de login care va deschide pagina corespunzatoare
+- In drepta sus exista un buton de login care va deschide pagina corespunzatoare
 - Aici forgot password deschide un modal iar join now ne duce in ecranul de inregistrare
 - Dupa logare/inregistrare se vor vedea toate feature-urile
 
@@ -45,5 +45,5 @@ In terminal, in interiorul proiectului, se vor da comenzile:
 
 ## Tehnologii:
 
--React
--React bootstrap framework
+- React
+- React bootstrap framework
