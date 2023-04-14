@@ -1,0 +1,46 @@
+.loginForm
+{
+    background-color: white;
+    width: 40%;
+    margin-top: 10px;
+    border-radius: 5px;
+    padding: 20px;
+    margin-bottom: 10px;
+}
+
+.bigDiv
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2%;
+}
+
+.text
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+
+@media only screen and (max-width: 800px) {
+    .loginForm {
+        width: 90%;
+    }
+    h1
+    {
+        font-size: 20px;
+    }
+  }
+
+  @media only screen and (min-width: 800px) and (max-width:1500px) {
+    .loginForm {
+        width: 60%;
+    }
+    h1
+    {
+        font-size: 40px;
+    }
+  }
+  

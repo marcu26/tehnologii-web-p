@@ -1,0 +1,27 @@
+.mydivEditProfile {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.editpbackground {
+    width: 30%;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+@media only screen and (max-width: 800px) {
+
+    .editpbackground {
+        width: 80%;
+    }
+}
+
+@media only screen and (min-width: 800px) and (max-width:1500px) {
+    .editpbackground {
+        width: 60%;
+    }
+}

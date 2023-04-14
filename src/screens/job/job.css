@@ -1,0 +1,44 @@
+.leftSideJob {
+    width: 20%;
+    display: inline-block;
+    vertical-align: top;
+  }
+
+.contentJob {
+    width: 60%;
+    display: inline-block;
+}
+
+.rightSideJob {
+    width: 20%;
+    display: inline-block;
+    vertical-align: top;
+}
+
+@media only screen and (max-width: 800px) {
+    .leftSideJob {
+        width: 1%;
+      }
+      
+      .contentJob {
+        width: 98%;
+      }
+      
+      .rightSideJob {
+        width: 1%;
+      }
+}
+
+@media only screen and (min-width: 800px) and (max-width:1500px) {
+    .leftSideJob {
+        width: 1%;
+      }
+      
+      .contentJob {
+        width: 98%;
+      }
+      
+      .rightSideJob {
+        width: 1%;
+      }
+}

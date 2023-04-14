@@ -1,0 +1,85 @@
+body {
+ position: relative;
+    background-image: url("https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/Sean-pollock-PhYq704ffdA-unsplash.jpg/2560px-Sean-pollock-PhYq704ffdA-unsplash.jpg");
+    background-size: cover;
+    min-height: 100vh;
+    display: grid;
+    grid-template-rows: 1fr auto
+}
+
+body::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 1;
+}
+
+
+.leftSide {
+    width: 30%;
+    display: inline-block;
+    vertical-align: top;
+  }
+
+.content {
+    width: 40%;
+    display: inline-block;
+}
+
+.rightSide {
+    width: 30%;
+    display: inline-block;
+    vertical-align: top;
+}
+
+@media only screen and (max-width: 800px) {
+    .leftSide {
+        width: 88% !important;
+        display: block !important;
+        margin: 0 auto;
+      }
+      
+      .content {
+        width: 80%;
+        display: block !important;
+        margin: 0 auto;
+      }
+      
+      .rightSide {
+        display: none !important;
+      }
+}
+
+@media only screen and (min-width: 800px) and (max-width:1500px) {
+    .leftSide {
+        width: 60% !important;
+        display: block !important;
+        margin: 0 auto;
+      }
+      
+      .content {
+        width: 60%;
+        display: block !important;
+        margin: 0 auto;
+      }
+      
+      .rightSide {
+        display: none !important;
+      }
+}
+
+footer
+{
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+
+.wrapper
+{
+    position: relative;
+    z-index: 10;
+}

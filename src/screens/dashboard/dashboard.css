@@ -1,0 +1,13 @@
+.dashboardContent
+{
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 0 auto;
+}
+
+.dashboardBox
+{
+    width: 80% !important;
+}

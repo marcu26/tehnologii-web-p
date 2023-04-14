@@ -1,0 +1,77 @@
+.userPic {
+    width: 100px;
+    height: 100px;
+}
+
+.profile_background {
+
+    width: 60%;
+    color: white;
+}
+
+.mydivProfile {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.leftSide {
+    width: 30%;
+    display: inline-block;
+}
+
+.content {
+    width: 40%;
+    display: inline-block;
+}
+
+.rightSide {
+    width: 30%;
+    display: inline-block;
+}
+
+@media only screen and (max-width: 800px) {
+    .leftSide {
+        width: 10%;
+        display: inline-block;
+    }
+
+    .content {
+        width: 80%;
+        display: inline-block;
+    }
+
+    .rightSide {
+        width: 10%;
+        display: inline-block;
+    }
+
+    .profile_background {
+
+        width: 85%;
+        color: white;
+    }
+}
+
+@media only screen and (min-width: 800px) and (max-width:1500px) {
+    .leftSide {
+        width: 20%;
+        display: inline-block;
+    }
+
+    .content {
+        width: 60%;
+        display: inline-block;
+    }
+
+    .rightSide {
+        width: 20%;
+        display: inline-block;
+    }
+
+    .profile_background {
+
+        width: 80%;
+        color: white;
+    }
+}
