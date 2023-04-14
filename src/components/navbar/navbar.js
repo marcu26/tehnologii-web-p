@@ -58,7 +58,7 @@ function GetNavbar() {
     } else {
       return (
 
-        <NavDropdown title={<img src={logo} alt="User" className='userLogo' />} id="basic-nav-dropdown" drop="start" hidearrow='true'>
+        <NavDropdown title={<img src={logo} alt="User" className='userLogo' />} id="basic-nav-dropdown" drop="start">
           <NavDropdown.Item onClick={handleProfileClick}>Profile</NavDropdown.Item>
           <NavDropdown.Item onClick={handleAdminClick}>Admin</NavDropdown.Item>
           <NavDropdown.Divider />

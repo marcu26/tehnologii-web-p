@@ -10,6 +10,10 @@ const ProfileForm = ({ profilePicUrl, username, location, website, coverPhoto })
     navigate('/editprofile');
   };
 
+  const handleMessagesClick = () => {
+    navigate('/messages');
+  };
+
   return (
     <div className="profile_background m-4" rounded>
       <Container className="bg-dark rounded">
@@ -23,13 +27,13 @@ const ProfileForm = ({ profilePicUrl, username, location, website, coverPhoto })
             <p className="m-3">{website}</p>
             <p style={{ marginTop: "20px", marginBottom: "20px" }}>
               <hr></hr>
-              <Button variant="primary" size="sm" className="m-1" onClick={handleEditProfileClick}>
+              <Button variant="outline-primary" size="sm" className="m-1" onClick={handleEditProfileClick}>
                 Edit Profile
               </Button>
-              <Button variant="primary" size="sm" className="m-1">
+              <Button variant="outline-primary" size="sm" className="m-1">
                 Add Section
               </Button>
-              <Button variant="success" size="sm" className="m-1">
+              <Button variant="outline-success" size="sm" className="m-1" onClick={handleMessagesClick}>
                 Message
               </Button>
             </p>
