@@ -1,25 +1,56 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Modal, Form, Button } from 'react-bootstrap';
-
-const badgeOptions = [
-  { label: 'React', value: 'react' },
-  { label: 'JavaScript', value: 'javascript' },
-  { label: 'Node.js', value: 'nodejs' },
-  { label: 'MongoDB', value: 'mongodb' },
-];
 
 const NewJobModal = ({ showModal, handleCloseModal }) => {
   const [jobTitle, setJobTitle] = useState('');
   const [jobDescription, setJobDescription] = useState('');
   const [selectedBadges, setSelectedBadges] = useState([]);
+  const [badgeOptions, setBadgeOptions] = useState([]);
+
+  useEffect(() => {
+    const jwt = localStorage.getItem('jwt');
+    fetch("http://localhost:8081/api/skills/get-all", {
+      headers: {
+        "Authorization":`Bearer ${jwt}`
+      }
+    })
+      .then(response => response.json())
+      .then(data => setBadgeOptions(data))
+      .catch(error => console.log(error));
+  }, []);
 
   const handleSubmit = (event) => {
+    const jwt = localStorage.getItem('jwt');
     event.preventDefault();
     handleCloseModal();
+
+    const requestBody = {
+      title: jobTitle,
+      description: jobDescription,
+      userId: 33, 
+      skillIds: selectedBadges
+    };
+
+    const requestOptions = {
+      method: 'POST',
+      
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${jwt}`
+      },
+      body: JSON.stringify(requestBody),
+      redirect: 'follow'
+    };
+
+    fetch("http://localhost:8081/api/jobs/create", requestOptions)
+      .then(response => response.text())
+      .then(result => console.log(result))
+      .catch(error => console.log('error', error));
   };
 
+
   const handleBadgeChange = (event) => {
-    const badgeValue = event.target.value;
+    const badgeValue = parseInt(event.target.value);
     const badgeIndex = selectedBadges.indexOf(badgeValue);
     if (badgeIndex === -1) {
       setSelectedBadges([...selectedBadges, badgeValue]);
@@ -27,6 +58,7 @@ const NewJobModal = ({ showModal, handleCloseModal }) => {
       setSelectedBadges([...selectedBadges.slice(0, badgeIndex), ...selectedBadges.slice(badgeIndex + 1)]);
     }
   };
+
 
   return (
     <Modal show={showModal} onHide={handleCloseModal} className="bg-dark">
@@ -48,11 +80,11 @@ const NewJobModal = ({ showModal, handleCloseModal }) => {
             <div>
               {badgeOptions.map((badgeOption) => (
                 <Form.Check
-                  key={badgeOption.value}
+                  key={badgeOption.id}
                   type="checkbox"
-                  label={badgeOption.label}
-                  value={badgeOption.value}
-                  checked={selectedBadges.includes(badgeOption.value)}
+                  label={badgeOption.title}
+                  value={badgeOption.id}
+                  checked={selectedBadges.includes(badgeOption.id)}
                   onChange={handleBadgeChange}
                 />
               ))}

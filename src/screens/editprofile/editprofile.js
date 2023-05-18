@@ -1,14 +1,39 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Navbar from '../../components/navbar/navbar';
 import { Container, Row, Col, Image, Form, Button } from "react-bootstrap";
 import "./editprofile.css"
+import { useNavigate } from "react-router-dom";
 
 const EditProfile = () => {
+
+  const navigate = useNavigate();
+
+  const [user, setUser] = useState({});
+
+  useEffect(() => {
+    const jwt = localStorage.getItem('jwt');
+
+    const requestOptions = {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${jwt}`
+      }
+    };
+
+    fetch(`http://localhost:8081/api/users/get-user`, requestOptions)
+      .then(response => response.json())
+      .then(result => setUser(result))
+      .catch(error => console.log('error', error));
+  }, []);
+
   const [username, setUsername] = useState("");
   const [location, setLocation] = useState("");
   const [website, setWebsite] = useState("");
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
+  const [photo, setPhoto] = useState("");
+  const [coverPhoto, setCoverPhoto] = useState("");
 
   const handleUsernameChange = (event) => {
     setUsername(event.target.value);
@@ -34,6 +59,47 @@ const EditProfile = () => {
     event.preventDefault();
   };
 
+  const handlePhotoChange = (event) => {
+    setPhoto(event.target.value);
+  };
+
+  const handleCoverPhotoChange = (event) => {
+    setCoverPhoto(event.target.value);
+  };
+
+
+  const Update = (event) => {
+    var myHeaders = new Headers();
+    const jwt = localStorage.getItem('jwt');
+
+
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Authorization", `Bearer ${jwt}`);
+    
+    var raw = JSON.stringify({
+      "username": username,
+      "website": website,
+      "location": location,
+      "photo": photo,
+      "coverPhoto":coverPhoto
+    });
+    
+    var requestOptions = {
+      method: 'PUT',
+      headers: myHeaders,
+      body: raw,
+      redirect: 'follow'
+    };
+    
+    fetch("http://localhost:8081/api/users/update-user", requestOptions)
+      .then(response => response.text())
+      .then(result => console.log(result))
+      .catch(error => console.log('error', error));
+
+      navigate("/profile")
+  };
+
+
   return (
     <div>
       <Navbar />
@@ -43,14 +109,29 @@ const EditProfile = () => {
             <Row className="d-flex justify-content-center">
               <Col md={10}>
                 <Image
-                  src="https://e7.pngegg.com/pngimages/178/595/png-clipart-user-profile-computer-icons-login-user-avatars-monochrome-black.png"
+                  src={user.photo}
                   roundedCircle
                   className="userPic m-3"
                 />
 
                 <Form.Group controlId="postImage">
-                  <Form.Label>Profile pic</Form.Label>
-                  <Form.Control type="file" className="bg-dark text-white" />
+                  <Form.Label>Photo</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="Photo (for the moment hotlink)"
+                    value={photo}
+                    onChange={handlePhotoChange}
+                  />
+                </Form.Group>
+
+                <Form.Group controlId="postImage">
+                  <Form.Label>Cover photo</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="Cover photo (for the moment hotlink)"
+                    value={coverPhoto}
+                    onChange={handleCoverPhotoChange}
+                  />
                 </Form.Group>
 
 
@@ -85,7 +166,7 @@ const EditProfile = () => {
                     />
                   </Form.Group>
 
-                  <Button variant="primary" type="submit" className="my-4">
+                  <Button variant="primary" type="submit" className="my-4" onClick={Update}>
                     Save Changes
                   </Button>
 

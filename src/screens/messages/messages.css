@@ -18,3 +18,32 @@
     height: 50px;
     border-radius: 50%;
 }
+
+.message-item {
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 10px;
+  }
+  
+  .incoming {
+    justify-content: flex-end;
+  }
+  
+  .message-content {
+    padding: 8px;
+    border-radius: 8px;
+    background-color: #eee;
+  }
+  
+  .outgoing .message-content {
+    background-color: #007bff;
+    color: white;
+    align-self: flex-end;
+  }
+  
+  .incoming .message-content {
+    background-color: #f8f9fa;
+    color: #212529;
+    align-self: flex-start;
+  }
+  

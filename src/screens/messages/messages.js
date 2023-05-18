@@ -1,36 +1,75 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Card, ListGroup, Form, Button } from 'react-bootstrap';
 import "./messages.css"
 
 import MyNavBar from '../../components/navbar/navbar';
 
 function Messages() {
-  const [users, setUsers] = useState([
-    { id: 1, name: 'Alice', image: 'https://newprofilepic2.photo-cdn.net//assets/images/article/profile.jpg', messages: [] },
-    { id: 2, name: 'Bob', image: 'https://pbs.twimg.com/media/FjU2lkcWYAgNG6d.jpg', messages: [] },
-    { id: 3, name: 'Charlie', image: 'https://newprofilepic2.photo-cdn.net//assets/images/article/profile.jpg', messages: [] },
-    { id: 4, name: 'Dave', image: 'https://pbs.twimg.com/media/FjU2lkcWYAgNG6d.jpg', messages: [] },
-  ]);
+  const [users, setUsers] = useState([]);
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [messages, setMessages] = useState([]);
 
-  const [selectedUser, setSelectedUser] = useState(users[0]);
+  useEffect(() => {
+    const jwt = localStorage.getItem('jwt');
+    const requestOptions = {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${jwt}`
+      }
+    };
+    fetch(`http://localhost:8081/api/users/get-only-friends`, requestOptions)
+      .then(response => response.json())
+      .then(result => {
+        setUsers(Array.isArray(result) ? result : [result]);
+        setSelectedUser(result[0]);
+      })
+      .catch(error => console.log('error', error));
+  }, []);
+
+  useEffect(() => {
+    const jwt = localStorage.getItem('jwt');
+    const requestOptions = {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${jwt}`
+      }
+    };
+    if (selectedUser) {
+      fetch(`http://localhost:8081/api/messages/get/${selectedUser.id}`, requestOptions)
+        .then(response => response.json())
+        .then(result => {
+          setMessages(result);
+        })
+        .catch(error => console.log('error', error));
+    }
+  }, [selectedUser]);
 
   const handleUserSelect = (user) => {
     setSelectedUser(user);
   };
 
   const handleMessageSubmit = (message) => {
-    const updatedUsers = users.map((user) => {
-      if (user.id === selectedUser.id) {
-        return {
-          ...user,
-          messages: [...user.messages, message],
-        };
-      } else {
-        return user;
-      }
-    });
-
-    setUsers(updatedUsers);
+    const jwt = localStorage.getItem('jwt');
+    const requestOptions = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${jwt}`
+      },
+      body: JSON.stringify({
+        recipientId: selectedUser.id,
+        content: message.content
+      })
+    };
+    fetch("http://localhost:8081/api/messages/create", requestOptions)
+      .then(response => response.json())
+      .then(result => {
+        // Add the new message to the messages list
+        setMessages([...messages, result]);
+      })
+      .catch(error => console.log('error', error));
   };
 
   return (
@@ -47,13 +86,13 @@ function Messages() {
                     <ListGroup.Item
                       key={user.id}
                       action
-                      active={selectedUser.id === user.id}
+                      active={selectedUser && selectedUser.id === user.id}
                       onClick={() => handleUserSelect(user)}
                       className="d-flex align-items-center"
                       variant="dark"
                     >
-                      <img src={user.image} alt={`${user.name} avatar`} className="mr-3 imageMessages" />
-                      <span>{user.name}</span>
+                      <img src={user?.photo} alt={`${user?.username ?? "Unknown"} avatar`} className="mr-3 imageMessages" />
+                      <span>{user?.username ?? "Unknown"}</span>
                     </ListGroup.Item>
                   ))}
                 </ListGroup>
@@ -62,12 +101,15 @@ function Messages() {
             <Col md={9} >
               <Card bg="dark" text="white" className='messageBox m-2'>
                 <Card.Header>
-                  {selectedUser.name}
+                  {selectedUser?.username ?? "Unknown"}
                 </Card.Header>
                 <Card.Body className="message-container">
-                  {selectedUser.messages.map((message, index) => (
-                    <div key={index} className={`message-item ${message.from === 'me' ? 'outgoing' : 'incoming'}`}>
-                      {message.content}
+                  {messages.map((message, index) => (
+                    <div key={index} className={`message-item ${message.mine === true ? 'outgoing' : 'incoming'}`}>
+                      <div className="message-content">
+                      <div className="message-timestamp">{message.timestamp}</div>
+                        <div className="message-text">{message.content}</div>
+                      </div>
                     </div>
                   ))}
                 </Card.Body>

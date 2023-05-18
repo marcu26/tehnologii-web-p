@@ -3,7 +3,6 @@ import Navbar from '../../components/navbar/navbar';
 import Postare from '../../components/postare/postare';
 import './home.css'
 import MyPostBar from '../../components/postbar/postbar'
-import isLoggedIn from '../../GlobalVars/IsLoggedIn';
 import ProfileInfo from '../../components/profileinfo/profileinfo';
 import FriendList from '../../components/friendlist/friendlist';
 
@@ -12,7 +11,7 @@ function Home() {
 
   const PostBar = () => 
   {
-    if (isLoggedIn.value === "1") 
+    if (localStorage.getItem('jwt') != null) 
     {
       return (
         <MyPostBar/>
@@ -22,7 +21,7 @@ function Home() {
 
   const ProfileInfoF = () => 
   {
-    if (isLoggedIn.value === "1") 
+    if (localStorage.getItem('jwt') != null) 
     {
       return (
         <ProfileInfo/>
@@ -32,7 +31,7 @@ function Home() {
 
   const Friends = () => 
   {
-    if (isLoggedIn.value === "1") 
+    if (localStorage.getItem('jwt') != null) 
     {
       return (
         <FriendList/>

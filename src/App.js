@@ -16,6 +16,8 @@ import EditProfile from './screens/editprofile/editprofile';
 import Footer from './components/footer/footer';
 import AdminDashboard from './screens/dashboard/dashboard';
 import JobPosting from './screens/job/job';
+import OtherProfile from './screens/profile/othersProfile';
+import Appliances from './screens/appliances/appliances';
 
 function App() {
   return (
@@ -24,14 +26,16 @@ function App() {
       <div className='contentApp'>
         <Router>
           <Routes>
+          <Route path='/otherProfile/:userId' element={<OtherProfile />} />
             <Route path='/dashboard' element={<AdminDashboard />} />
+            <Route path='/appliances' element={<Appliances />} />
             <Route path='/editprofile' element={<EditProfile />} />
             <Route path='/profile' element={<Profile />} />
             <Route path='/jobs' element={<Jobs />} />
             <Route path='/messages' element={<Messages />} />
             <Route path='/signin' element={<SignIn />} />
             <Route path='/login' element={<Login />} />
-            <Route path='/job' element={<JobPosting/>} />
+            <Route path='/job/:jobId' element={<JobPosting/>} />
             <Route path='/' element={<Home />} />
           </Routes>
         </Router>
