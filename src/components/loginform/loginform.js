@@ -1,22 +1,27 @@
 import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import IsLoggedIn from '../../GlobalVars/IsLoggedIn';
 import { useNavigate } from 'react-router-dom';
 import ForgotPasswordModal from '../forgotpassword/forgotpassword';
 
 function LoginForm() {
   const navigate = useNavigate();
   const [showForgotPasswordModal, setShowForgotPasswordModal] = useState(false);
+  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('');
+  const [doesNotExistError, setDoesNotExistError] = useState('');
 
-  const setX = () => {
-    if (IsLoggedIn.value === '0') {
-      IsLoggedIn.value = '1';
-    } else {
-      IsLoggedIn.value = '0';
-    }
-    navigate('/');
+  const handleEmailChange = (event) => {
+    setEmail(event.target.value);
+
   };
+
+  const handlePasswordChange = (event) => {
+    setPassword(event.target.value);
+  };
+
+
+
 
   const navigateSignIN = () => {
     navigate('/signIn');
@@ -30,6 +35,44 @@ function LoginForm() {
     setShowForgotPasswordModal(false);
   };
 
+  const logIn = (event) => {
+    event.preventDefault();
+
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    var raw = JSON.stringify({
+      "email": email,
+      "password": password
+    });
+
+    var requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: raw,
+      redirect: 'follow'
+    };
+
+    fetch("http://localhost:8081/api/users/authenticate", requestOptions)
+    .then(response => {
+      if (!response.ok) {
+        return response.text().then(text => {
+          throw new Error(text);
+        });
+      }
+      return response.json(); 
+    })
+    .then(result => {
+      console.log(result);
+      localStorage.setItem('jwt', result.token);
+      localStorage.setItem('userId', result.userId); 
+      navigate('/')
+    })
+    .catch(error => {
+      setDoesNotExistError(error.message);
+    });
+};
+
   return (
     <div className='form-container'>
       <Form>
@@ -40,7 +83,13 @@ function LoginForm() {
         <br />
         <Form.Group className='mb-3' controlId='formBasicEmail'>
           <Form.Label>Email</Form.Label>
-          <Form.Control type='email' placeholder='Enter email' />
+          <Form.Control
+            type="email"
+            placeholder="Enter email"
+            value={email}
+            onChange={handleEmailChange}
+            required
+          />
           <Form.Text className='text-muted'>
             We'll never share your email with anyone else.
           </Form.Text>
@@ -48,7 +97,14 @@ function LoginForm() {
 
         <Form.Group className='mb-3' controlId='formBasicPassword'>
           <Form.Label>Password</Form.Label>
-          <Form.Control type='password' placeholder='Password' />
+          <Form.Control
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={handlePasswordChange}
+            minLength={8}
+            required
+          />
         </Form.Group>
         <Form.Group className='mb-3' controlId='formBasicCheckbox'>
           <Form.Check type='checkbox' label='Remember me' />
@@ -59,8 +115,11 @@ function LoginForm() {
           </Button>
         </div>
         <div className='d-flex justify-content-center p-4'>
-          <Button variant='outline-dark' type='submit' onClick={setX}>
-            Sign In
+          <Button
+            variant="outline-dark"
+            type="submit"
+            onClick={logIn}>
+            Log in
           </Button>
           <div className='px-3'></div>
           <Button variant='outline-dark' type='submit' onClick={navigateSignIN}>
@@ -69,6 +128,7 @@ function LoginForm() {
         </div>
       </Form>
       <ForgotPasswordModal showModal={showForgotPasswordModal} handleCloseModal={handleCloseForgotPasswordModal} />
+      {doesNotExistError && <div className="error">{doesNotExistError}</div>}
     </div>
   );
 }
